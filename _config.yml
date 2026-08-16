@@ -1,0 +1,25 @@
+title: Laura Endres
+tagline: Palaeoclimate Research — Speleothems, Meltwater Forcing, AMOC
+description: >-
+  Research on speleothem palaeoclimate archives, meltwater forcing of the AMOC,
+  and Last Deglaciation climate dynamics. Climate Geology Group, ETH Zürich.
+author: Laura Endres
+email: endres@eaps.ethz.ch
+url: "https://lrndrs.github.io"
+baseurl: ""
+
+orcid_id: "0000-0002-5013-4811"
+github_user: "lrndrs"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules

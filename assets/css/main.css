@@ -1,0 +1,147 @@
+:root {
+  --ink: #1f2320;
+  --ink-soft: #4a5049;
+  --paper: #faf9f6;
+  --line: #ddd8cd;
+  --accent: #7a5230;
+  --accent-soft: #f1ece2;
+  --max-width: 760px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+h1, h2, h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.35rem; margin-top: 2.5rem; border-bottom: 1px solid var(--line); padding-bottom: 0.3rem; }
+h3 { font-size: 1.1rem; margin-bottom: 0.2rem; }
+
+p { color: var(--ink-soft); }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+  padding: 1.25rem 0;
+}
+.site-header .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.site-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--ink);
+}
+.site-nav a {
+  color: var(--ink-soft);
+  margin-left: 1.25rem;
+  font-size: 0.95rem;
+}
+.site-nav a:first-child { margin-left: 0; }
+.site-nav a.active,
+.site-nav a:hover {
+  color: var(--accent);
+}
+
+main {
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.tagline {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin-top: 0;
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 1.5rem 0 2.5rem;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+/* Publications */
+#pub-list { list-style: none; margin: 0; padding: 0; }
+.pub-item {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.pub-year {
+  display: inline-block;
+  min-width: 3em;
+  color: var(--accent);
+  font-weight: bold;
+}
+.pub-title { color: var(--ink); font-weight: 600; }
+.pub-meta { color: var(--ink-soft); font-size: 0.9rem; }
+.pub-type-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 3px;
+  padding: 0.1rem 0.4rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+#pub-status { color: var(--ink-soft); font-style: italic; }
+
+/* Repo cards */
+.repo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+@media (min-width: 620px) {
+  .repo-grid { grid-template-columns: 1fr 1fr; }
+}
+.repo-card {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+  background: #fff;
+}
+.repo-card h3 a { color: var(--ink); }
+.repo-card p { margin: 0.4rem 0 0; font-size: 0.92rem; }
+.repo-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  margin-top: 0.5rem;
+}
+
+/* Teaching / people */
+.people-list { list-style: none; padding: 0; }
+.people-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
