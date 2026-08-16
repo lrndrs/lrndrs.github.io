@@ -4,18 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% seo %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <link rel="icon" href="data:,">
 </head>
 <body>
   <header class="site-header">
     <div class="wrap">
-      <a class="site-name" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <a class="site-name" href="{{ '/' | relative_url }}">{{ site.brand_title }}</a>
       <nav class="site-nav">
         <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>Home</a>
         <a href="{{ '/publications/' | relative_url }}" {% if page.url contains 'publications' %}class="active"{% endif %}>Publications</a>
         <a href="{{ '/teaching/' | relative_url }}" {% if page.url contains 'teaching' %}class="active"{% endif %}>Teaching &amp; Supervision</a>
         <a href="{{ '/repositories/' | relative_url }}" {% if page.url contains 'repositories' %}class="active"{% endif %}>Repositories</a>
+        <a href="{{ '/sound/' | relative_url }}" {% if page.url contains 'sound' %}class="active"{% endif %}>Sound</a>
       </nav>
     </div>
   </header>

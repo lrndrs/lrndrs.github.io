@@ -1,0 +1,9 @@
+# Selected sound design / Tonmeister projects.
+# Each entry becomes a card on /sound/. Add or remove entries freely.
+# url is required (link to YouTube, Vimeo, a label page, etc.); year/role/description are optional.
+projects: []
+#  - name: Project Title
+#    url: https://youtube.com/...
+#    role: Sound Design
+#    year: 2018
+#    description: One or two sentences about the project.
