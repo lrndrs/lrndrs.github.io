@@ -28,6 +28,23 @@
     return chosen["external-id-url"] ? chosen["external-id-url"].value : null;
   }
 
+  function doiOf(w) {
+    const ids = w["external-ids"] && w["external-ids"]["external-id"];
+    if (!ids) return null;
+    const doi = ids.find((id) => id["external-id-type"] === "doi");
+    return doi ? doi["external-id-value"].toLowerCase() : null;
+  }
+
+  // ORCID's public API doesn't expose the "Featured works" flag, so the DOIs
+  // below mirror what's currently pinned as Featured on the ORCID profile.
+  // Update this list by hand if the featured selection changes on ORCID.
+  const FEATURED_DOIS = [
+    "10.5194/cp-22-797-2026",
+    "10.1017/qua.2023.41",
+    "10.5194/egusphere-egu25-18390",
+    "10.5194/egusphere-egu26-21023",
+  ].map((d) => d.toLowerCase());
+
   fetch(`https://pub.orcid.org/v3.0/${orcid}/works`, {
     headers: { Accept: "application/json" },
   })
@@ -44,7 +61,17 @@
         return pd && pd.year ? parseInt(pd.year.value, 10) : 0;
       }
 
-      works.sort((a, b) => yearOf(b) - yearOf(a));
+      function isFeatured(w) {
+        const doi = doiOf(w);
+        return doi ? FEATURED_DOIS.includes(doi) : false;
+      }
+
+      works.sort((a, b) => {
+        const featA = isFeatured(a) ? 1 : 0;
+        const featB = isFeatured(b) ? 1 : 0;
+        if (featA !== featB) return featB - featA;
+        return yearOf(b) - yearOf(a);
+      });
 
       if (works.length === 0) {
         statusEl.textContent = "No publications found on ORCID.";
@@ -62,12 +89,14 @@
           const journal = w["journal-title"] ? w["journal-title"].value : "";
           const type = TYPE_LABELS[w.type] || w.type || "";
           const link = bestExternalLink(w["external-ids"]) || (w.url ? w.url.value : null);
+          const featured = isFeatured(w);
 
           const titleHtml = link
             ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`
             : escapeHtml(title);
 
-          return `<li class="pub-item">
+          return `<li class="pub-item${featured ? " pub-featured" : ""}">
+            ${featured ? `<span class="pub-featured-tag" title="Featured on ORCID">★ Featured</span>` : ""}
             <span class="pub-year">${escapeHtml(year)}</span>
             <span class="pub-title">${titleHtml}</span>
             ${type ? `<span class="pub-type-tag">${escapeHtml(type)}</span>` : ""}

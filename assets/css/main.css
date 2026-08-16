@@ -130,6 +130,16 @@ main {
   vertical-align: middle;
 }
 #pub-status { color: var(--ink-soft); font-style: italic; }
+.pub-featured { background: var(--accent-soft); margin: 0 -0.75rem; padding: 0.85rem 0.75rem; border-radius: 4px; }
+.pub-featured-tag {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
 
 /* Repo cards */
 .repo-grid {
