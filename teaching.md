@@ -8,14 +8,15 @@ permalink: /teaching/
 
 ## Teaching
 
-- **Git for Scientists** — workshop introducing version control to researchers
-  with no prior coding background. Materials: [repository](https://github.com/{{ site.github_user }}/website).
+- **Past Ocean Circulation (FS 2026)** - Reading Course, Master Level, Co-teaching with Heather Stoll
+- **Landscape Acoustics** Institute of Landscape Architecture (ILA), ETH Zürich (2018–2020).
+
+
+## Development of Course and Workshop Training Content
 - **SISAL Workshop** — training materials for the speleothem isotope synthesis
   and analysis (SISAL) database working group. Materials: [repository](https://github.com/{{ site.github_user }}/workshop_dev).
 - **Climate History & Model Practical (WS2024)** — practical session on
   climate history and modelling. Materials: [repository](https://github.com/{{ site.github_user }}/climate-history-model-practical-WS2024).
-- **Research/Teaching Assistant, Landscape Acoustics** and Lab Manager,
-  AudioVisualLab — Institute of Landscape Architecture (ILA), ETH Zürich (2018–2020).
 
 ## Supervision
 

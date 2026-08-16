@@ -4,7 +4,9 @@ description: >-
   Research on speleothem palaeoclimate archives, meltwater forcing of the AMOC,
   and Last Deglaciation climate dynamics. Climate Geology Group, ETH Zürich.
 author: Laura Endres
-email: endres@eaps.ethz.ch
+# Email is intentionally not stored here in plain text — it's obfuscated in
+# assets/js/email-protect.js and injected into <span data-protected-email>
+# elements at runtime to deter scrapers.
 url: "https://lrndrs.github.io"
 baseurl: ""
 
