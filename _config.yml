@@ -13,6 +13,7 @@ baseurl: ""
 orcid_id: "0000-0002-5013-4811"
 github_user: "lrndrs"
 eth_profile_url: "https://eaps.ethz.ch/en/people/profile.laura-endres.html"
+linkedin_url: "https://www.linkedin.com/in/laura-endres-30987164/"
 
 markdown: kramdown
 kramdown:

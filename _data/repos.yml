@@ -1,36 +1,27 @@
 research_code:
-  - name: dyetracer_palaeo_figurescripts
+  - name: Dye tracer Analysis Code and Figure Scripts
     repo: dyetracer_palaeo_figurescripts
     description: >-
       Scripts and data for "Tracing Meltwater from Northern Ice Sheets to
       Palaeoclimate Archives During the Early Last Deglaciation: a conservative
       tracer approach."
     language: Jupyter Notebook
-  - name: Fluorescence_LaVallina_QR
+  - name: Fluorescence Analysis Scripts
     repo: Fluorescence_LaVallina_QR
     description: >-
       R code to reproduce plots for "Climatic and cave settings influence on
       drip water fluorescent organic matter with implications for fluorescent
       laminations in stalagmites" (Quaternary Research, 2023).
     language: R / HTML
-  - name: Organics_Analysis
-    repo: Organics_Analysis
-    description: >-
-      Code and data for the organics analysis submitted to the speleothem
-      special issue in Quaternary Research (Endres et al., 2023).
-    language: R
-  - name: midpoints_EnsembleComputation
+ 
+  - name: Palaeo Transition Midpoints
     repo: midpoints_EnsembleComputation
     description: >-
       Computes palaeo transition midpoints with an errors-in-variables
-      approach; overall uncertainty via MCMC ensemble draws.
+      approach; overall uncertainty via MCMC ensemble draws. 
     language: R
 
 teaching_resources:
-  - name: Git for Scientists
-    repo: website
-    description: Website and materials for the "Git for Scientists" workshop.
-    language: Workshop
   - name: SISAL Workshop
     repo: workshop_dev
     description: Development repository for the SISAL database training workshop.

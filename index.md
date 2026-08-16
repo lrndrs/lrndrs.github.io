@@ -49,4 +49,5 @@ hindsight, connect both halves of my career.
 **Find me on:** [ETH profile]({{ site.eth_profile_url }}) ·
 [ORCID](https://orcid.org/{{ site.orcid_id }}) ·
 [GitHub](https://github.com/{{ site.github_user }}) ·
+[LinkedIn]({{ site.linkedin_url }}) ·
 <span data-protected-email></span>
