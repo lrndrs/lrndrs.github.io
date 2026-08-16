@@ -45,6 +45,11 @@
     "10.5194/egusphere-egu26-21023",
   ].map((d) => d.toLowerCase());
 
+  // Site-only pin, independent of ORCID's Featured flag — always sorts to the
+  // very top, above Featured works. Not marked "Featured" since ORCID itself
+  // doesn't show it as such; update/remove by hand as needed.
+  const PINNED_DOIS = ["10.22541/essoar.15007256/v1"].map((d) => d.toLowerCase());
+
   fetch(`https://pub.orcid.org/v3.0/${orcid}/works`, {
     headers: { Accept: "application/json" },
   })
@@ -66,7 +71,15 @@
         return doi ? FEATURED_DOIS.includes(doi) : false;
       }
 
+      function isPinned(w) {
+        const doi = doiOf(w);
+        return doi ? PINNED_DOIS.includes(doi) : false;
+      }
+
       works.sort((a, b) => {
+        const pinA = isPinned(a) ? 1 : 0;
+        const pinB = isPinned(b) ? 1 : 0;
+        if (pinA !== pinB) return pinB - pinA;
         const featA = isFeatured(a) ? 1 : 0;
         const featB = isFeatured(b) ? 1 : 0;
         if (featA !== featB) return featB - featA;
@@ -90,13 +103,21 @@
           const type = TYPE_LABELS[w.type] || w.type || "";
           const link = bestExternalLink(w["external-ids"]) || (w.url ? w.url.value : null);
           const featured = isFeatured(w);
+          const pinned = isPinned(w);
 
           const titleHtml = link
             ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`
             : escapeHtml(title);
 
-          return `<li class="pub-item${featured ? " pub-featured" : ""}">
-            ${featured ? `<span class="pub-featured-tag" title="Featured on ORCID">★ Featured</span>` : ""}
+          let tagHtml = "";
+          if (pinned) {
+            tagHtml = `<span class="pub-featured-tag" title="Pinned to top on this site">★ Latest</span>`;
+          } else if (featured) {
+            tagHtml = `<span class="pub-featured-tag" title="Featured on ORCID">★ Featured</span>`;
+          }
+
+          return `<li class="pub-item${featured || pinned ? " pub-featured" : ""}">
+            ${tagHtml}
             <span class="pub-year">${escapeHtml(year)}</span>
             <span class="pub-title">${titleHtml}</span>
             ${type ? `<span class="pub-type-tag">${escapeHtml(type)}</span>` : ""}
