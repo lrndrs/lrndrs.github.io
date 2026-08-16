@@ -3,9 +3,13 @@ layout: default
 title: Home
 ---
 
-# Laura Endres
-
-<p class="tagline">Postdoctoral Researcher, Climate Geology Group, ETH Zürich</p>
+<div class="profile-header">
+  <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Laura Endres" class="profile-photo">
+  <div>
+    <h1>Laura Endres</h1>
+    <p class="tagline">Postdoctoral Researcher, <a href="{{ site.eth_profile_url }}">Climate Geology Group, ETH Zürich</a></p>
+  </div>
+</div>
 
 ## Research statement
 
@@ -42,6 +46,7 @@ sound designer (MA Tonmeister, Universität für Musik und Darstellende Kunst Wi
 signal, noise, and listening carefully to messy time series are themes that, in
 hindsight, connect both halves of my career.
 
-**Find me on:** [ORCID](https://orcid.org/{{ site.orcid_id }}) ·
+**Find me on:** [ETH profile]({{ site.eth_profile_url }}) ·
+[ORCID](https://orcid.org/{{ site.orcid_id }}) ·
 [GitHub](https://github.com/{{ site.github_user }}) ·
 [{{ site.email }}](mailto:{{ site.email }})
