@@ -8,7 +8,7 @@ title: Home
   <div>
     <h1>Laura Endres</h1>
     <p class="tagline">Postdoctoral Researcher, <a href="{{ site.eth_profile_url }}">Climate Geology Group, ETH Zürich</a></p>
-    <p class="tagline tagline-secondary">Academic Visitor, University of Leeds</p>
+    <p class="tagline tagline-secondary">Academic Visitor, School of Earth, Environment and Sustainability, University of Leeds</p>
   </div>
 </div>
 
