@@ -9,7 +9,7 @@ permalink: /teaching/
 ## Teaching
 
 - **Climate History** (MSc, ETH Zürich, HS 2026): lectures on past civilizations and centennial-scale climate modes
-- **Dynamische Erde** (BSc, ETH Zürich, HS 2026): lectures on geological time, the climate system, climate history
+- **Dynamische Erde** (BSc, ETH Zürich, HS 2026): lectures on geological time, the climate system, climate history ([interactive Snowball Earth model]({{ '/snowball-earth/' | relative_url }}))
 - **Past Ocean Circulation** (MSc, ETH Zürich, FS 2026): paper-discussion seminar, co-taught with Heather Stoll
 - **Climate history model practical** (2024): hands-on climate model session ([materials](https://github.com/{{ site.github_user }}/climate-history-model-practical-WS2024))
 - **SISAL workshop**: training in using the SISAL database ([materials](https://github.com/{{ site.github_user }}/workshop_dev))
