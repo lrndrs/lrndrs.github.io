@@ -52,7 +52,11 @@ teaching_resources:
     repo: climate-history-model-practical-WS2024
     description: Hands-on practical on climate history and climate models for MSc students.
     language: Jupyter Notebook
-  - name: Git for Scientists
-    repo: website
-    description: Website and materials for a Git workshop for scientists.
-    language: Workshop
+  - name: Snowball Earth model (Schneeball-Erde)
+    url: /snowball-earth/
+    description: >-
+      Interactive classroom model of the ice–albedo feedback and the CO₂ cycle:
+      students change weathering and volcanism and watch the Earth freeze into a
+      snowball and thaw again. Built for Dynamische Erde (BSc, ETH Zürich,
+      HS 2026); in German, runs in the browser.
+    language: HTML / JS

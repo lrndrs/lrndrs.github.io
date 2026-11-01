@@ -38,7 +38,7 @@ Everything else is on [GitHub](https://github.com/{{ site.github_user }}?tab=rep
 <div class="repo-grid">
 {% for r in site.data.repos.teaching_resources %}
   <div class="repo-card">
-    <h3><a href="https://github.com/{{ r.owner | default: site.github_user }}/{{ r.repo }}" target="_blank" rel="noopener">{{ r.name }}</a></h3>
+    <h3><a href="{% if r.url %}{{ r.url | relative_url }}{% else %}https://github.com/{{ r.owner | default: site.github_user }}/{{ r.repo }}{% endif %}" target="_blank" rel="noopener">{{ r.name }}</a></h3>
     <p>{{ r.description }}</p>
     <span class="repo-tag">{{ r.language }}</span>
   </div>

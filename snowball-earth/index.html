@@ -1,0 +1,428 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Schneeball-Erde</title><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: Beamer-tauglich, Bedienung oben, links Planet + Phase, rechts zwei Zeitreihen; schmal einspaltig */
+:root {
+  --bg: #eef3f6;
+  --panel: #ffffff;
+  --fg: #13212c;
+  --muted: #5b6d7a;
+  --line: #d3dee6;
+  --ocean: #1f6390;
+  --ice: #f4fafd;
+  --ice-edge: #9cc3da;
+  --warm: #c2482a;
+  --co2: #3f7a36;
+  --accent: #1f6390;
+  --phase-bg: #e3edf3;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-num: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1820; --panel: #13222d; --fg: #e3edf3; --muted: #93a8b6; --line: #24394a;
+    --ocean: #2b78ab; --ice: #e8f2f8; --ice-edge: #7fb0cd; --warm: #ef7a57; --co2: #7fbf6e;
+    --accent: #6fb3e0; --phase-bg: #1b3040; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1820; --panel: #13222d; --fg: #e3edf3; --muted: #93a8b6; --line: #24394a;
+  --ocean: #2b78ab; --ice: #e8f2f8; --ice-edge: #7fb0cd; --warm: #ef7a57; --co2: #7fbf6e;
+  --accent: #6fb3e0; --phase-bg: #1b3040; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 32px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 18px; }
+header h1 { font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+header p { margin: 0; max-width: 70ch; color: var(--muted); }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+
+/* Bedienung */
+.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px 22px; align-items: end; }
+.ctl label { display: flex; justify-content: space-between; font-weight: 700; gap: 8px; }
+.ctl .hint { display: block; font-size: 0.82rem; color: var(--muted); font-weight: 400; }
+.ctl output { font-family: var(--font-num); font-weight: 600; color: var(--accent); }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.switch { display: flex; align-items: center; gap: 10px; font-weight: 700; cursor: pointer; }
+.switch input { width: 20px; height: 20px; accent-color: var(--accent); }
+.examples h2 { font-size: 1.15rem; margin: 0 0 4px; }
+.ex-intro { margin: 0 0 12px; color: var(--muted); }
+.ex-list { margin: 0; padding-left: 1.6em; display: grid; gap: 10px; }
+.ex-list li { padding-left: 4px; }
+.ex-list li::marker { font-family: var(--font-num); font-weight: 600; color: var(--muted); }
+.ex-list button { margin-right: 10px; }
+.ex-list span { color: var(--fg); }
+button {
+  font: inherit; font-size: 0.92rem; color: var(--fg); background: var(--phase-bg); border: 1px solid var(--line);
+  border-radius: 999px; padding: 6px 14px; cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+button.on { background: var(--accent); color: var(--panel); border-color: var(--accent); }
+
+/* Hauptbereich */
+.main { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr); gap: 18px; }
+@media (max-width: 820px) { .main { grid-template-columns: 1fr; } }
+.planet-box { display: grid; gap: 14px; align-content: start; }
+canvas#planet { width: 100%; max-width: 340px; aspect-ratio: 1; justify-self: center; display: block; }
+.readout { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 6px 14px; font-size: 0.95rem; }
+.readout div { display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding-block: 3px; }
+.readout b { font-family: var(--font-num); font-variant-numeric: tabular-nums; font-weight: 600; }
+
+.phase-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 8px; }
+.phases { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; list-style: none; padding: 0; margin: 0 0 10px; counter-reset: ph; }
+.phases li { font-size: 0.78rem; text-align: center; padding: 6px 2px; border-radius: 6px; background: var(--phase-bg); color: var(--muted); line-height: 1.2; }
+.phases li::before { counter-increment: ph; content: counter(ph); display: block; font-family: var(--font-num); font-weight: 600; }
+.phases li.active { background: var(--accent); color: var(--panel); }
+#phaseText { margin: 0; min-height: 4.4em; }
+
+.fluxes { display: grid; gap: 6px; font-size: 0.9rem; }
+.flux { display: grid; grid-template-columns: 9.5em minmax(0,1fr) 3.2em; align-items: center; gap: 8px; }
+.flux .bar { height: 12px; background: var(--phase-bg); border-radius: 6px; overflow: hidden; }
+.flux .bar i { display: block; height: 100%; border-radius: 6px; }
+.flux b { font-family: var(--font-num); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+#net { font-weight: 700; }
+
+.charts { display: grid; gap: 10px; }
+.chart h2 { font-size: 1rem; margin: 0 0 2px; }
+svg.plot { width: 100%; height: auto; display: block; cursor: crosshair; touch-action: none; }
+svg.plot text { fill: var(--muted); font-family: var(--font-num); font-size: 11px; }
+.transport { display: flex; align-items: center; gap: 12px; }
+.transport input { flex: 1; }
+.transport .t { font-family: var(--font-num); font-size: 0.85rem; color: var(--muted); min-width: 9em; text-align: right; }
+.axis-note { font-size: 0.92rem; color: var(--fg); }
+.axis-note b { font-family: var(--font-num); font-weight: 600; }
+footer { font-size: 0.82rem; color: var(--muted); max-width: 90ch; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Schneeball-Erde: Eis-Albedo-Rückkopplung und CO₂-Kreislauf</h1>
+    <p>Starke Verwitterung entzieht der Atmosphäre CO₂, die Erde kühlt ab. Wächst das Eis, wirft es mehr Sonnenlicht zurück, und die Abkühlung verstärkt sich selbst, bis alles gefriert. Unter dem Eis stoppt die Verwitterung, Vulkane reichern CO₂ an, bis der Treibhauseffekt das Eis wieder schmilzt.</p>
+  </header>
+
+  <section class="panel controls" aria-label="Einstellungen">
+    <div class="ctl">
+      <label for="w">Verwitterung <output id="wOut">1.00</output></label>
+      <input id="w" type="range" min="0" max="3" step="0.05" value="1">
+      <span class="hint">CO₂-Senke. 1 = heutige Rate (bei 15 °C und 280 ppm); wächst mit Temperatur und CO₂, null unter Eis. 0 = aus</span>
+    </div>
+    <div class="ctl">
+      <label for="v">Vulkanismus <output id="vOut">1.00</output></label>
+      <input id="v" type="range" min="0" max="3" step="0.05" value="1">
+      <span class="hint">CO₂-Quelle. 1 = heutige Rate, konstant, auch unter dem Eis. 0 = aus. Beide auf 1: stabile Erde bei 15 °C</span>
+    </div>
+    <div class="ctl">
+      <label class="switch" for="couple"><input id="couple" type="checkbox" checked> Eis-Albedo-Rückkopplung an</label>
+      <span class="hint">Aus: Eis bildet sich trotzdem, wenn es kalt wird, aber die Albedo bleibt bei 0.30</span>
+    </div>
+  </section>
+
+  <section class="main">
+    <div class="panel planet-box">
+      <canvas id="planet" width="680" height="680" aria-label="Schematischer Planet mit Eiskappen"></canvas>
+      <div class="readout">
+        <div>Temperatur <b id="rT"></b></div>
+        <div>CO₂ <b id="rC"></b></div>
+        <div>Albedo <b id="rA"></b></div>
+        <div>Eisgrenze <b id="rL"></b></div>
+      </div>
+      <div>
+        <p class="phase-title">Phase</p>
+        <ol class="phases" id="phases">
+          <li>Abkühlung</li><li>Kipppunkt</li><li>Schneeball</li><li>Abschmelzen</li><li>Treibhaus</li>
+        </ol>
+        <p id="phaseText"></p>
+      </div>
+      <div class="fluxes" aria-label="CO₂-Flüsse">
+        <p class="phase-title" style="margin:0">CO₂-Bilanz (1 = heutige Rate)</p>
+        <div class="flux"><span>Quelle: Vulkane</span><span class="bar"><i id="bV" style="background:var(--warm)"></i></span><b id="nV"></b></div>
+        <div class="flux"><span>Senke: Verwitterung</span><span class="bar"><i id="bW" style="background:var(--co2)"></i></span><b id="nW"></b></div>
+        <div id="net"></div>
+      </div>
+    </div>
+
+    <div class="panel charts">
+      <div class="chart">
+        <h2>Globale Mitteltemperatur</h2>
+        <svg class="plot" id="plotT" viewBox="0 0 640 230" role="img" aria-label="Temperatur über die Zeit"></svg>
+      </div>
+      <div class="chart">
+        <h2>CO₂ in der Atmosphäre</h2>
+        <svg class="plot" id="plotC" viewBox="0 0 640 230" role="img" aria-label="CO2 über die Zeit"></svg>
+      </div>
+      <div class="transport">
+        <button type="button" id="play">▶ Abspielen</button>
+        <input id="step" type="range" min="0" max="1199" step="1" value="0" aria-label="Zeitpunkt">
+        <span class="t" id="tLabel"></span>
+      </div>
+      <div class="axis-note" id="dur">
+      </div>
+    </div>
+  </section>
+
+  <section class="panel examples" aria-labelledby="exH">
+    <h2 id="exH">Beispiele zum Anschauen</h2>
+    <p class="ex-intro">Erst selbst mit den Reglern spielen, dann diese Fälle vergleichen. Ein Klick setzt die Regler und zeigt den Verlauf oben.</p>
+    <ol class="ex-list">
+      <li><button type="button" data-p="stable">Stabile Erde</button><span>Verwitterung 1, Vulkane 1: Quelle und Senke halten sich die Waage, die Erde bleibt bei 15 °C.</span></li>
+      <li><button type="button" data-p="cycle">Schneeball-Zyklus</button><span>Verwitterung 2, Vulkane 1: schnelles Einfrieren, langer Schneeball, schnelles Abschmelzen, danach Treibhaus.</span></li>
+      <li><button type="button" data-p="nofb">Gleich, ohne Rückkopplung</button><span>Wie Beispiel 2, aber die Albedo bleibt gleich: nur leichte Abkühlung, kein Schneeball.</span></li>
+      <li><button type="button" data-p="novolc">Ohne Vulkane</button><span>Verwitterung 1, Vulkane 0: kein CO₂-Nachschub, die Erde bleibt im Schneeball.</span></li>
+      <li><button type="button" data-p="noweath">Ohne Verwitterung</button><span>Verwitterung 0, Vulkane 1: keine Senke, das CO₂ steigt immer weiter, die Erde wird heiß.</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    Nulldimensionales Lehrmodell, kein Klimamodell: Temperatur, CO₂ und Eis gelten für die ganze Erde. Die Zeitachse ist relativ: Es geht um langsam gegen schnell. Das Anreichern von CO₂ durch Vulkane ist langsam, Einfrieren und Abschmelzen durch die Eis-Albedo-Rückkopplung sind schnell. In der Natur ist der Unterschied noch viel größer: Millionen Jahre Schneeball, aber nur Tausende Jahre zum Abschmelzen. Die Eisgrenze ist aus dem Eisanteil berechnet (Eis bedeckt alles polwärts dieser Breite). Klick oder Ziehen in den Diagrammen springt zu einem Zeitpunkt.
+  </footer>
+</div>
+
+<script>
+(() => {
+  // ---------- Modell (wie im Notebook) ----------
+  const P = { alpha0: 0.30, alphai: 0.60, deltaT: 10, co2_0: 280, T0: 15, n: 1200, dt: 1,
+              cs: 1.6, as: 140, tau: 8 };
+  function calcAlpha(T) {
+    const { alpha0, alphai, deltaT } = P;
+    if (T < -deltaT) return alphai;
+    if (T < deltaT) return alphai + (alpha0 - alphai) * (T + deltaT) / (2 * deltaT);
+    return alpha0;
+  }
+  function run(weathering, volcanic, coupled) {
+    const n = P.n, r = { T: [], C: [], A: [], I: [], W: [], V: [], N: [] };
+    let T = P.T0, C = P.co2_0;
+    for (let i = 0; i < n; i++) {
+      const ice = Math.min(1, Math.max(0, (P.deltaT - T) / (2 * P.deltaT)));  // Eis folgt der Temperatur
+      const a = coupled ? calcAlpha(T) : P.alpha0;                            // nur mit Rückkopplung wird die Erde heller
+      const Teq = 15 + P.cs * 5.35 * Math.log(Math.max(C, 1e-6) / 280) - P.as * (a - 0.30);
+      T = T + P.dt * (Teq - T) / P.tau;
+      const W = weathering * Math.exp((T - 15) / 14) * Math.pow(C / 280, 0.3) * (1 - ice);
+      const net = volcanic - W;  // 1 und 1: Gleichgewicht bei 15 °C und 280 ppm
+      C = Math.min(20000, Math.max(5, C + P.dt * 2.5 * net));
+      r.T.push(T); r.C.push(C); r.A.push(a); r.I.push(ice); r.W.push(W); r.V.push(volcanic); r.N.push(net);
+    }
+    return r;
+  }
+
+  // ---------- Phasen ----------
+  const PH = [
+    "Stabil: Quellen und Senken von CO₂ halten sich die Waage, das Klima ändert sich kaum.",
+    "Abkühlung: Die Verwitterung entzieht mehr CO₂, als die Vulkane nachliefern. Der Treibhauseffekt wird schwächer.",
+    "Kipppunkt: Eis breitet sich aus, die Albedo steigt, es wird noch kälter. Die Rückkopplung verstärkt sich selbst.",
+    "Schneeball: Ozean und Land sind vereist. Die Verwitterung stoppt, die Vulkane reichern langsam CO₂ an.",
+    "Abschmelzen: Der Treibhauseffekt reicht aus, das Eis zieht sich zurück. Die Albedo sinkt, die Erwärmung verstärkt sich selbst.",
+    "Treibhaus: Nach dem Schneeball ist es heiß und CO₂-reich. Starke Verwitterung entzieht das CO₂ langsam wieder."
+  ];
+  function phaseAt(r, i) {
+    const ice = r.I[i], dT = i > 0 ? r.T[i] - r.T[i - 1] : 0;
+    if (ice > 0.95) return 3;
+    if (ice > 0.05) return dT < 0 ? 2 : 4;
+    if (r.T[i] > P.T0 + 3) return 5;
+    if (dT < -0.004) return 1;
+    return 0;
+  }
+
+  // ---------- Elemente ----------
+  const $ = id => document.getElementById(id);
+  const wEl = $("w"), vEl = $("v"), cEl = $("couple"), stepEl = $("step"), playBtn = $("play");
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let R = null, step = 0, playing = false, raf = 0;
+
+  // ---------- Planet ----------
+  const cv = $("planet"), ctx = cv.getContext("2d");
+  function drawPlanet(ice, alpha) {
+    const W = cv.width, c = W / 2, rad = W * 0.42;
+    ctx.clearRect(0, 0, W, W);
+    ctx.save();
+    ctx.beginPath(); ctx.arc(c, c, rad, 0, Math.PI * 2); ctx.clip();
+    ctx.fillStyle = css("--ocean"); ctx.fillRect(0, 0, W, W);
+    // Eisgrenze: Flächenanteil polwärts von phi (beide Hemisphären) = 1 - sin(phi)
+    const phi = Math.asin(Math.min(1, Math.max(0, 1 - ice)));
+    const y = Math.sin(phi) * rad;
+    ctx.fillStyle = css("--ice");
+    if (ice > 0.001) {
+      ctx.fillRect(0, 0, W, c - y);
+      ctx.fillRect(0, c + y, W, W);
+    }
+    // Breitenkreise
+    ctx.strokeStyle = "rgba(255,255,255,0.25)"; ctx.lineWidth = 2;
+    for (const d of [30, 60]) for (const s of [-1, 1]) {
+      const yy = c + s * Math.sin(d * Math.PI / 180) * rad;
+      ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(W, yy); ctx.stroke();
+    }
+    ctx.setLineDash([10, 8]); ctx.strokeStyle = "rgba(255,255,255,0.45)";
+    ctx.beginPath(); ctx.moveTo(0, c); ctx.lineTo(W, c); ctx.stroke(); ctx.setLineDash([]);
+    if (ice > 0.001 && ice < 0.999) {
+      ctx.strokeStyle = css("--ice-edge"); ctx.lineWidth = 4;
+      for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(0, c + s * y); ctx.lineTo(W, c + s * y); ctx.stroke(); }
+    }
+    // Schattierung
+    const g = ctx.createRadialGradient(c - rad * 0.35, c - rad * 0.4, rad * 0.1, c, c, rad * 1.05);
+    g.addColorStop(0, "rgba(255,255,255,0.18)"); g.addColorStop(1, "rgba(0,0,0,0.35)");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, W);
+    ctx.restore();
+    ctx.strokeStyle = css("--fg"); ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(c, c, rad, 0, Math.PI * 2); ctx.stroke();
+    // Sonnenstrahlen: Anteil reflektiert ~ Albedo
+    ctx.fillStyle = css("--muted"); ctx.font = `600 ${W * 0.034}px ${css("--font-num")}`; ctx.textAlign = "left";
+    ctx.fillText("30°", c + rad * 0.9, c - Math.sin(Math.PI / 6) * rad - 6);
+    ctx.fillText("60°", c + rad * 0.55, c - Math.sin(Math.PI / 3) * rad - 6);
+    ctx.fillText("0°", c + rad + 8, c + 8);
+    ctx.textAlign = "center"; ctx.fillStyle = css("--fg");
+    ctx.fillText(`${Math.round(alpha * 100)} % des Sonnenlichts reflektiert`, c, W - 8);
+  }
+
+  // ---------- Diagramme ----------
+  const M = { l: 46, r: 12, t: 10, b: 30 }, VW = 640, VH = 230;
+  const NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; }
+  const charts = {};
+  function setupChart(id, key, color, log) {
+    const svg = $(id); svg.innerHTML = "";
+    const x = i => M.l + (VW - M.l - M.r) * i / (P.n - 1);
+    let lo, hi, y, ticks;
+    const data = R[key];
+    if (log) {
+      lo = Math.min(100, Math.min(...data)); hi = Math.max(1000, Math.max(...data));
+      const L0 = Math.log10(lo), L1 = Math.log10(hi);
+      y = v => M.t + (VH - M.t - M.b) * (1 - (Math.log10(v) - L0) / (L1 - L0));
+      ticks = [];
+      for (let k = Math.floor(L0); k <= Math.ceil(L1); k++) for (const m of [1, 2, 5]) { const v = m * 10 ** k; if (v >= lo && v <= hi) ticks.push(v); }
+    } else {
+      lo = -40; hi = 40;
+      y = v => M.t + (VH - M.t - M.b) * (1 - (v - lo) / (hi - lo));
+      ticks = [-40, -20, 0, 20, 40];
+    }
+    for (const t of ticks) {
+      el("line", { x1: M.l, x2: VW - M.r, y1: y(t), y2: y(t), stroke: "var(--line)", "stroke-width": t === 0 && !log ? 1.6 : 1 }, svg);
+      el("text", { x: M.l - 6, y: y(t) + 4, "text-anchor": "end" }, svg).textContent = log ? t : (t > 0 ? "+" : "") + t + " °C";
+    }
+    if (!log) el("text", { x: VW - M.r - 2, y: y(0) - 5, "text-anchor": "end" }, svg).textContent = "Gefrierpunkt";
+    for (let s = 0; s <= 1200; s += 200) el("text", { x: x(Math.min(s, P.n - 1)), y: VH - 10, "text-anchor": "middle" }, svg).textContent = s;
+    // Schneeball-Phasen schattieren
+    let start = -1;
+    for (let i = 0; i <= P.n; i++) {
+      const sb = i < P.n && R.I[i] > 0.95;
+      if (sb && start < 0) start = i;
+      if (!sb && start >= 0) { el("rect", { x: x(start), y: M.t, width: Math.max(1, x(i - 1) - x(start)), height: VH - M.t - M.b, fill: "var(--ice-edge)", opacity: 0.22 }, svg); start = -1; }
+    }
+    let d = ""; data.forEach((v, i) => { d += (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1); });
+    el("path", { d, fill: "none", stroke: color, "stroke-width": 2.4, "stroke-linejoin": "round" }, svg);
+    const cursor = el("line", { y1: M.t, y2: VH - M.b, stroke: "var(--fg)", "stroke-width": 1.2, "stroke-dasharray": "4 3" }, svg);
+    const dot = el("circle", { r: 5, fill: color, stroke: "var(--panel)", "stroke-width": 2 }, svg);
+    charts[id] = { x, y, cursor, dot, key };
+    const pick = ev => {
+      const b = svg.getBoundingClientRect();
+      const px = (ev.clientX - b.left) / b.width * VW;
+      setStep(Math.round((px - M.l) / (VW - M.l - M.r) * (P.n - 1)));
+    };
+    svg.onpointerdown = ev => { stop(); svg.setPointerCapture(ev.pointerId); pick(ev); };
+    svg.onpointermove = ev => { if (ev.buttons) pick(ev); };
+  }
+  function moveCursor(id) {
+    const c = charts[id], v = R[c.key][step], X = c.x(step);
+    c.cursor.setAttribute("x1", X); c.cursor.setAttribute("x2", X);
+    c.dot.setAttribute("cx", X); c.dot.setAttribute("cy", c.y(v));
+  }
+
+  // ---------- Anzeige ----------
+  const fmt = (v, d = 0) => v.toLocaleString("de-CH", { minimumFractionDigits: d, maximumFractionDigits: d });
+  function render() {
+    const i = step, T = R.T[i], C = R.C[i], A = R.A[i], I = R.I[i];
+    drawPlanet(I, A);
+    $("rT").textContent = (T > 0 ? "+" : "") + fmt(T, 1) + " °C";
+    $("rC").textContent = fmt(C) + " ppm";
+    $("rA").textContent = fmt(A, 2);
+    const lat = Math.asin(Math.min(1, Math.max(0, 1 - I))) * 180 / Math.PI;
+    $("rL").textContent = I < 0.001 ? "kein Eis" : I > 0.999 ? "Äquator" : fmt(lat) + "° Breite";
+    const ph = phaseAt(R, i);
+    [...$("phases").children].forEach((li, k) => li.classList.toggle("active", k + 1 === ph));
+    $("phaseText").textContent = PH[ph];
+    const mx = Math.max(2, R.V[i], R.W[i]);
+    for (const [k, b, nId] of [["V", "bV", "nV"], ["W", "bW", "nW"]]) {
+      $(b).style.width = (100 * R[k][i] / mx) + "%"; $(nId).textContent = fmt(R[k][i], 2);
+    }
+    const net = R.N[i];
+    $("net").textContent = Math.abs(net) < 0.02 ? "→ CO₂ bleibt etwa gleich" : net > 0 ? "→ CO₂ steigt (Quelle größer als Senken)" : "→ CO₂ sinkt (Senken größer als Quelle)";
+    $("net").style.color = Math.abs(net) < 0.02 ? "var(--muted)" : net > 0 ? "var(--warm)" : "var(--co2)";
+    moveCursor("plotT"); moveCursor("plotC");
+    stepEl.value = i; $("tLabel").textContent = "Zeit " + i;
+  }
+  function setStep(s) { step = Math.max(0, Math.min(P.n - 1, s)); render(); }
+
+  function recompute(keepStep) {
+    $("wOut").textContent = (+wEl.value).toFixed(2);
+    $("vOut").textContent = (+vEl.value).toFixed(2);
+    R = run(+wEl.value, +vEl.value, cEl.checked);
+    setupChart("plotT", "T", "var(--warm)", false);
+    setupChart("plotC", "C", "var(--co2)", true);
+    if (!keepStep) {
+      const first = R.I.findIndex(v => v > 0.95);
+      step = first >= 0 ? Math.min(P.n - 1, first + 120) : 400;
+    }
+    render();
+    markPreset();
+    showDurations();
+  }
+
+  // Langsam gegen schnell: Dauer der Phasen im aktuellen Lauf
+  function showDurations() {
+    const I = R.I, a = I.findIndex(v => v > 0.05), b = I.findIndex(v => v > 0.95);
+    const box = $("dur");
+    if (b < 0) { box.textContent = "Kein Schneeball in diesem Lauf."; return; }
+    const c = I.findIndex((v, k) => k > b && v <= 0.95);
+    if (c < 0) { box.innerHTML = `Einfrieren: <b>${b - a}</b> Zeiteinheiten · Schneeball: <b>bleibt bis zum Ende</b> (zu wenig CO₂-Nachschub)`; return; }
+    const d = I.findIndex((v, k) => k > c && v < 0.05);
+    const melt = (d < 0 ? P.n : d) - c, sb = c - b;
+    box.innerHTML = `Einfrieren: <b>${b - a}</b> · Schneeball (CO₂-Aufbau): <b>${sb}</b> · Abschmelzen: <b>${melt}</b> Zeiteinheiten. Das Abschmelzen ist etwa <b>${Math.round(sb / melt)}-mal</b> schneller als der CO₂-Aufbau.`;
+  }
+
+  // ---------- Abspielen ----------
+  function stop() { playing = false; cancelAnimationFrame(raf); playBtn.textContent = "▶ Abspielen"; }
+  function tick() {
+    if (!playing) return;
+    if (step >= P.n - 1) { stop(); return; }
+    setStep(step + 3);
+    raf = requestAnimationFrame(tick);
+  }
+  playBtn.onclick = () => {
+    if (playing) { stop(); return; }
+    if (step >= P.n - 1) step = 0;
+    playing = true; playBtn.textContent = "❚❚ Pause"; tick();
+  };
+  stepEl.oninput = () => { stop(); setStep(+stepEl.value); };
+
+  // ---------- Beispiele ----------
+  const PRESETS = { stable: [1.0, 1.0, true], cycle: [2.0, 1.0, true], nofb: [2.0, 1.0, false], novolc: [1.0, 0.0, true], noweath: [0.0, 1.0, true] };
+  function markPreset() {
+    document.querySelectorAll("[data-p]").forEach(b => {
+      const p = PRESETS[b.dataset.p];
+      b.classList.toggle("on", +wEl.value === p[0] && +vEl.value === p[1] && cEl.checked === p[2]);
+    });
+  }
+  document.querySelectorAll("[data-p]").forEach(b => b.onclick = () => {
+    const p = PRESETS[b.dataset.p]; stop();
+    wEl.value = p[0]; vEl.value = p[1]; cEl.checked = p[2];
+    recompute(false);
+    const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelector(".main").scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "start" });
+  });
+  for (const e of [wEl, vEl]) e.oninput = () => { stop(); recompute(true); };
+  cEl.onchange = () => { stop(); recompute(true); };
+
+  // Farben bei Themenwechsel neu zeichnen
+  try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render); } catch (e) {}
+  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  recompute(false);
+})();
+</script>
+
+</body></html>

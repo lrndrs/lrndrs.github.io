@@ -56,15 +56,15 @@ Methodologically, my toolkit spans:
     </div>
     <span class="method-label">Fluorescence</span>
   </div>
-  <div class="method-item" title="Age-model uncertainty propagation">
+  <div class="method-item" title="Bayesian age models, uncertainty propagation and ensemble time series analysis">
     <div class="method-badge">
       <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M15 6h18 M15 42h18 M15 6c0 9 18 9 18 18s-18 9-18 18 M33 6c0 9-18 9-18 18s18 9 18 18"/>
       </svg>
     </div>
-    <span class="method-label">Age Models</span>
+    <span class="method-label">Age Models &amp; Time Series Analysis</span>
   </div>
-  <div class="method-item" title="Coupled climate model experiments (HadCM3)">
+  <div class="method-item" title="Coupled climate model experiments and dye tracers (HadCM3)">
     <div class="method-badge">
       <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="24" cy="24" r="18"/>
@@ -72,16 +72,17 @@ Methodologically, my toolkit spans:
         <path d="M6 24h36 M9 15h30 M9 33h30"/>
       </svg>
     </div>
-    <span class="method-label">Climate Modelling</span>
+    <span class="method-label">Climate Models</span>
   </div>
-  <div class="method-item" title="Forward modelling of tracer transport">
+  <div class="method-item" title="SISAL and Neotoma: data curation, quality control, SQL">
     <div class="method-badge">
       <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 30c6-13 12 13 18 0s12-13 18 0"/>
-        <path d="M33 23l7 7-7 7"/>
+        <ellipse cx="24" cy="11" rx="14" ry="5"/>
+        <path d="M10 11v26c0 2.8 6.3 5 14 5s14-2.2 14-5V11"/>
+        <path d="M10 24c0 2.8 6.3 5 14 5s14-2.2 14-5"/>
       </svg>
     </div>
-    <span class="method-label">Tracer Modelling</span>
+    <span class="method-label">Databases</span>
   </div>
 </div>
 
