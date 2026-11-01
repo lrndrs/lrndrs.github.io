@@ -1,32 +1,58 @@
+# Each entry becomes a card on /repositories/. `owner` defaults to site.github_user.
 research_code:
-  - name: Dye tracer Analysis Code and Figure Scripts
+  - name: Dye-tracer analysis and figure scripts
     repo: dyetracer_palaeo_figurescripts
     description: >-
-      Scripts and data for "Tracing Meltwater from Northern Ice Sheets to
-      Palaeoclimate Archives During the Early Last Deglaciation: a conservative
-      tracer approach."
+      Scripts and data behind the preprint "Tracing meltwater from northern ice
+      sheets to palaeoclimate archives during the early Last Deglaciation: a
+      conservative tracer approach" (HadCM3 dye tracers, model–data comparison).
     language: Jupyter Notebook
-  - name: Fluorescence Analysis Scripts
-    repo: Fluorescence_LaVallina_QR
-    description: >-
-      R code to reproduce plots for "Climatic and cave settings influence on
-      drip water fluorescent organic matter with implications for fluorescent
-      laminations in stalagmites" (Quaternary Research, 2023).
-    language: R / HTML
- 
-  - name: Palaeo Transition Midpoints
+  - name: Palaeo transition midpoints
     repo: midpoints_EnsembleComputation
     description: >-
-      Computes palaeo transition midpoints with an errors-in-variables
-      approach; overall uncertainty via MCMC ensemble draws. 
+      Midpoints of abrupt palaeoclimate transitions with an error-in-variables
+      approach; overall uncertainty from MCMC ensemble draws.
+      Archived on Zenodo (doi:10.5281/zenodo.19348268).
+    language: R
+  - name: Drip-water fluorescence analysis
+    repo: Fluorescence_LaVallina_QR
+    description: >-
+      R code that reproduces the figures of Endres et al. (2023), Quaternary
+      Research: how climate and cave setting shape fluorescent organic matter
+      in drip water and stalagmite laminations.
     language: R
 
+data_stewardship:
+  - name: SISAL database
+    owner: SISALdb
+    repo: SISALdb
+    description: Development and release versions of the SISAL speleothem database.
+    language: Python / R
+  - name: SISAL AutoQC
+    owner: SISALdb
+    repo: datasteward-AutoQC
+    description: >-
+      Automated quality control of SISAL data submission workbooks, part of the
+      SISAL–Neotoma stewardship workflow.
+    language: Python / R
+  - name: SISAL WebSubmit
+    owner: SISALdb
+    repo: SISAL_WebSubmit
+    description: >-
+      Web app that runs the AutoQC checks and plots on a submitted workbook and
+      gives submitters instant feedback (MSc internship project I co-supervise).
+    language: Python / R / JS
+
 teaching_resources:
-  - name: SISAL Workshop
+  - name: SISAL workshop
     repo: workshop_dev
-    description: Development repository for the SISAL database training workshop.
+    description: Training materials for working with the SISAL database.
     language: Workshop
-  - name: Climate History & Model Practical (WS2024)
+  - name: Climate history model practical (2024)
     repo: climate-history-model-practical-WS2024
-    description: Practical session materials on climate history and modelling.
+    description: Hands-on practical on climate history and climate models for MSc students.
     language: Jupyter Notebook
+  - name: Git for Scientists
+    repo: website
+    description: Website and materials for a Git workshop for scientists.
+    language: Workshop

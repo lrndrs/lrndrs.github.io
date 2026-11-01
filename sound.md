@@ -29,4 +29,4 @@ International Ensemble Modern Academy (IEMA), Frankfurt.
 <p><em>Project links coming soon.</em></p>
 {% endif %}
 
-To add or remove entries, edit `_data/sound.yml`.
+ <!-- To add or remove entries, edit `_data/sound.yml`.  -->

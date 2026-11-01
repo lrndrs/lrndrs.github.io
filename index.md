@@ -64,15 +64,15 @@ Methodologically, my toolkit spans:
     </div>
     <span class="method-label">Age Models</span>
   </div>
-  <div class="method-item" title="Ensemble midpoint detection for abrupt transitions">
+  <div class="method-item" title="Coupled climate model experiments (HadCM3)">
     <div class="method-badge">
-      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 20c4-9 8-9 12 0s8 9 12 0 8-9 12 0" opacity="0.45"/>
-        <path d="M5 28c4-9 8-9 12 0s8 9 12 0 8-9 12 0" opacity="0.45"/>
-        <path d="M5 24c4-9 8-9 12 0s8 9 12 0 8-9 12 0"/>
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="24" cy="24" r="18"/>
+        <ellipse cx="24" cy="24" rx="8" ry="18"/>
+        <path d="M6 24h36 M9 15h30 M9 33h30"/>
       </svg>
     </div>
-    <span class="method-label">Ensemble Stats</span>
+    <span class="method-label">Climate Modelling</span>
   </div>
   <div class="method-item" title="Forward modelling of tracer transport">
     <div class="method-badge">
@@ -85,16 +85,21 @@ Methodologically, my toolkit spans:
   </div>
 </div>
 
-I care about proxy data being reusable beyond the paper it was
-published in, which is part of why I contribute to
-[SISAL](https://sisal-db.com/) (Speleothem Isotopes Synthesis and AnaLysis), the
-global speleothem stable isotope and trace element database, where I sit on the
-PAGES steering committee.
+I am Data Steward and a Steering Committee member of
+[SISAL](https://pastglobalchanges.org/science/wg/sisal/intro) (Speleothem Isotopes Synthesis and AnaLysis), the
+PAGES working group behind the global speleothem isotope and trace-element database
+([SISALv3](https://doi.org/10.5194/essd-16-1933-2024)). My work there:
 
-More broadly, I'm interested in where palaeoclimate science meets data science and
-climate modelling — building reproducible, script-based analysis pipelines, and
-using isotope-enabled and forcing-sensitivity model experiments to test hypotheses
-that proxy records alone can't resolve.
+- **SISAL into Neotoma.** I started and coordinate the move of the SISAL database
+  into the [Neotoma Paleoecology Database](https://www.neotomadb.org/): schema
+  mapping, controlled vocabularies, and a community workflow for submission and
+  quality control.
+- **Stewardship.** I check and import community data submissions, manage releases
+  (SISALv3.1, including a database-wide re-run of the SISAL age-model ensemble), and
+  keep the stewardship code open on [GitHub](https://github.com/SISALdb).
+- **Community.** I co-convene the SISAL session at EGU (since 2022), act as SISAL
+  liaison to [PalaeOpen](https://www.cost.eu/actions/CA23116/) (COST Action CA23116)
+  and take part in the PAGES working group IMPACT.
 
 Before moving into climate geology, I trained and worked as a sound engineer and
 sound designer (MA Tonmeister, Universität für Musik und Darstellende Kunst Wien);
